@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+  <!-- 配置dubbo服务的项目 -->
+  <dubbo:application name="jose-dubbo-provider" />
+
+  <!-- 配置注册中心 -->
+  <dubbo:registry id="zk1" address="127.0.0.1:2181" protocol="zookeeper" />
+
+  <!-- 配置协议使用dubbo -->
+  <dubbo:protocol id="dubboProtocol" name="dubbo" port="20886" />
+
+  <!-- 配置提供者 -->
+  <dubbo:provider registry="zk1" protocol="dubboProtocol" />
+
+  <!-- 定义实现类 -->
+  <bean name="speakInterface" class="com.jose.provider.SpeakInterfaceImpl" />
+
+  <!-- 定义服务 -->
+  <dubbo:service interface="com.jose.httpinterface.SpeakingAble" ref="speakInterface"/>
+</beans>
